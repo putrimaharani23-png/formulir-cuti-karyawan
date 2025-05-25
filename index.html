@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Permohonan Cuti Karyawan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 2px solid #f1f2f6;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 20px;
+            height: 20px;
+            background: #3498db;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 12px 15px;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .file-upload-label:hover {
+            background: #e3f2fd;
+            border-color: #2980b9;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #1f618d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-pending {
+            background: #f39c12;
+            color: white;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .calculation-result {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #8bc34a;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                margin: 10px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Formulir Permohonan Cuti</h1>
+            <p>Sistem Digital Manajemen Kepegawaian</p>
+        </div>
+
+        <div class="form-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <form id="cutiForm">
+                <!-- Section 1: Data Pribadi -->
+                <div class="section">
+                    <h3 class="section-title">👤 Data Pribadi</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="namaLengkap">Nama Lengkap <span class="required">*</span></label>
+                            <input type="text" id="namaLengkap" name="namaLengkap" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nip">NIP/NIK <span class="required">*</span></label>
+                            <input type="text" id="nip" name="nip" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jabatan">Jabatan <span class="required">*</span></label>
+                            <select id="jabatan" name="jabatan" required>
+                                <option value="">Pilih Jabatan</option>
+                                <option value="staff">Staff</option>
+                                <option value="supervisor">Supervisor</option>
+                                <option value="manager">Manager</option>
+                                <option value="direktur">Direktur</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="departemen">Departemen/Unit Kerja <span class="required">*</span></label>
+                            <select id="departemen" name="departemen" required>
+                                <option value="">Pilih Departemen</option>
+                                <option value="hr">Human Resources</option>
+                                <option value="finance">Finance</option>
+                                <option value="it">Information Technology</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="operations">Operations</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telepon">Nomor Telepon <span class="required">*</span></label>
+                            <input type="tel" id="telepon" name="telepon" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Detail Permohonan Cuti -->
+                <div class="section">
+                    <h3 class="section-title">📅 Detail Permohonan Cuti</h3>
+                    <div class="form-group">
+                        <label for="jenisCuti">Jenis Cuti <span class="required">*</span></label>
+                        <select id="jenisCuti" name="jenisCuti" required>
+                            <option value="">Pilih Jenis Cuti</option>
+                            <option value="tahunan">Cuti Tahunan</option>
+                            <option value="sakit">Cuti Sakit</option>
+                            <option value="melahirkan">Cuti Melahirkan</option>
+                            <option value="menikah">Cuti Menikah</option>
+                            <option value="duka">Cuti Duka</option>
+                            <option value="khusus">Cuti Khusus</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tanggalMulai">Tanggal Mulai Cuti <span class="required">*</span></label>
+                            <input type="date" id="tanggalMulai" name="tanggalMulai" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggalSelesai">Tanggal Selesai Cuti <span class="required">*</span></label>
+                            <input type="date" id="tanggalSelesai" name="tanggalSelesai" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlahHari">Jumlah Hari Cuti</label>
+                        <input type="number" id="jumlahHari" name="jumlahHari" readonly>
+                        <div class="calculation-result" id="calculationResult" style="display: none;">
+                            <strong>Perhitungan otomatis berdasarkan tanggal yang dipilih</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="alasanCuti">Alasan Cuti <span class="required">*</span></label>
+                        <textarea id="alasanCuti" name="alasanCuti" required placeholder="Jelaskan alasan pengajuan cuti Anda..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamatCuti">Alamat Selama Cuti</label>
+                        <textarea id="alamatCuti" name="alamatCuti" placeholder="Alamat yang dapat dihubungi selama cuti..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Section 3: Dokumen Pendukung -->
+                <div class="section">
+                    <h3 class="section-title">📎 Dokumen Pendukung</h3>
+                    <div class="info-box">
+                        <h4>ℹ️ Informasi Penting</h4>
+                        <p>Upload dokumen pendukung sesuai jenis cuti yang diajukan. Format yang diterima: PDF, JPG, PNG (Maksimal 5MB)</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="suratDokter">Surat Dokter (untuk cuti sakit)</label>
+                        <div class="file-upload">
+                            <input type="file" id="suratDokter" name="suratDokter" accept=".pdf,.jpg,.jpeg,.png">
+                            <label for="suratDokter" class="file-upload-label">
+                                📄 Klik untuk upload surat dokter
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dokumenLain">Dokumen Pendukung Lainnya</label>
+                        <div class="file-upload">
+                            <input type="file" id="dokumenLain" name="dokumenLain" accept=".pdf,.jpg,.jpeg,.png" multiple>
+                            <label for="dokumenLain" class="file-upload-label">
+                                📁 Klik untuk upload dokumen pendukung
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Persetujuan -->
+                <div class="section">
+                    <h3 class="section-title">✅ Persetujuan</h3>
+                    <div class="form-group">
+                        <label for="namaAtasan">Nama Atasan Langsung <span class="required">*</span></label>
+                        <input type="text" id="namaAtasan" name="namaAtasan" required>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="persetujuanAtasan" name="persetujuanAtasan" required>
+                        <label for="persetujuanAtasan">
+                            Saya telah mendapat persetujuan dari atasan langsung untuk pengajuan cuti ini
+                            <span class="required">*</span>
+                        </label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="kebenaranData" name="kebenaranData" required>
+                        <label for="kebenaranData">
+                            Saya menyatakan bahwa semua data yang diisi adalah benar dan dapat dipertanggungjawabkan
+                            <span class="required">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Status dan Tracking -->
+                <div class="section">
+                    <h3 class="section-title">📊 Status Permohonan</h3>
+                    <div class="info-box">
+                        <h4>Status Saat Ini:</h4>
+                        <span class="status-indicator status-pending">Draft - Belum Disubmit</span>
+                        <p style="margin-top: 10px; font-size: 14px;">
+                            Setelah submit, Anda akan menerima email konfirmasi dan dapat melacak status permohonan melalui dashboard karyawan.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button type="button" class="btn btn-secondary" onclick="saveDraft()">💾 Simpan Draft</button>
+                    <button type="submit" class="btn btn-primary">🚀 Submit Permohonan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form Progress Tracking
+        function updateProgress() {
+            const form = document.getElementById('cutiForm');
+            const requiredFields = form.querySelectorAll('[required]');
+            let filledFields = 0;
+
+            requiredFields.forEach(field => {
+                if (field.type === 'checkbox') {
+                    if (field.checked) filledFields++;
+                } else if (field.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+
+            const progress = (filledFields / requiredFields.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Calculate days between dates
+        function calculateDays() {
+            const startDate = document.getElementById('tanggalMulai').value;
+            const endDate = document.getElementById('tanggalSelesai').value;
+            
+            if (startDate && endDate) {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const timeDiff = end.getTime() - start.getTime();
+                const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+                
+                if (dayDiff > 0) {
+                    document.getElementById('jumlahHari').value = dayDiff;
+                    document.getElementById('calculationResult').style.display = 'block';
+                    document.getElementById('calculationResult').innerHTML = 
+                        `<strong>✅ Total: ${dayDiff} hari kerja</strong><br>
+                         <small>Dari ${new Date(startDate).toLocaleDateString('id-ID')} sampai ${new Date(endDate).toLocaleDateString('id-ID')}</small>`;
+                } else {
+                    alert('Tanggal selesai harus lebih besar dari tanggal mulai!');
+                    document.getElementById('tanggalSelesai').value = '';
+                }
+            }
+        }
+
+        // File upload handler
+        function handleFileUpload(inputId) {
+            const input = document.getElementById(inputId);
+            const label = input.nextElementSibling;
+            
+            if (input.files.length > 0) {
+                const fileName = input.files[0].name;
+                label.innerHTML = `✅ ${fileName}`;
+                label.style.background = '#d4edda';
+                label.style.borderColor = '#28a745';
+                label.style.color = '#155724';
+            }
+        }
+
+        // Save draft functionality
+        function saveDraft() {
+            const formData = new FormData(document.getElementById('cutiForm'));
+            const draftData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                draftData[key] = value;
+            }
+            
+            // Store in memory (replace with actual API call)
+            console.log('Draft saved:', draftData);
+            alert('✅ Draft berhasil disimpan!');
+        }
+
+        // Form submission
+        document.getElementById('cutiForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submissionData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                submissionData[key] = value;
+            }
+            
+            // Add timestamp and status
+            submissionData.timestamp = new Date().toISOString();
+            submissionData.status = 'submitted';
+            submissionData.trackingNumber = 'CUT' + Date.now();
+            
+            // Simulate API submission
+            console.log('Form submitted:', submissionData);
+            
+            alert(`✅ Permohonan cuti berhasil disubmit!\n\nNomor Tracking: ${submissionData.trackingNumber}\n\nAnda akan menerima email konfirmasi dalam beberapa menit.`);
+            
+            // Reset form
+            this.reset();
+            updateProgress();
+        });
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update progress on any input change
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateProgress);
+                input.addEventListener('change', updateProgress);
+            });
+
+            // Date calculation
+            document.getElementById('tanggalMulai').addEventListener('change', calculateDays);
+            document.getElementById('tanggalSelesai').addEventListener('change', calculateDays);
+
+            // File upload handlers
+            document.getElementById('suratDokter').addEventListener('change', () => handleFileUpload('suratDokter'));
+            document.getElementById('dokumenLain').addEventListener('change', () => handleFileUpload('dokumenLain'));
+
+            // Initialize progress
+            updateProgress();
+        });
+
+        // Form validation enhancement
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim() && field.type !== 'checkbox') {
+                    field.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else if (field.type === 'checkbox' && !field.checked) {
+                    field.parentElement.style.color = '#e74c3c';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#ddd';
+                    if (field.type === 'checkbox') {
+                        field.parentElement.style.color = '#2c3e50';
+                    }
+                }
+            });
+            
+            return isValid;
+        }
+
+        // Enhanced form submission with validation
+        document.getElementById('cutiForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                alert('⚠️ Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Continue with submission...
+            const formData = new FormData(this);
+            const submissionData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                submissionData[key] = value;
+            }
+            
+            submissionData.timestamp = new Date().toISOString();
+            submissionData.status = 'submitted';
+            submissionData.trackingNumber = 'CUT' + Date.now();
+            
+            console.log('Form submitted:', submissionData);
+            
+            // Show success message
+            alert(`✅ Permohonan cuti berhasil disubmit!\n\n📋 Nomor Tracking: ${submissionData.trackingNumber}\n\n📧 Anda akan menerima email konfirmasi dalam beberapa menit.\n\n🔍 Gunakan nomor tracking untuk memantau status permohonan.`);
+            
+            // Reset form and progress
+            this.reset();
+            updateProgress();
+            document.getElementById('calculationResult').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
